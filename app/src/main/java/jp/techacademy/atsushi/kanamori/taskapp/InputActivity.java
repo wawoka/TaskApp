@@ -158,7 +158,14 @@ public class InputActivity extends AppCompatActivity {
         realm.copyToRealmOrUpdate(mTask);
         realm.commitTransaction();
 
-        realm.close();
+
+
+
+
+        //realm.close();
+
+
+
 
         Intent resultIntent = new Intent(getApplicationContext(), TaskAlarmReceiver.class);
         resultIntent.putExtra(MainActivity.EXTRA_TASK, mTask.getId());

@@ -13,7 +13,7 @@ public class Task extends RealmObject implements Serializable {
 
     // id をプライマリーキーとして設定
     @PrimaryKey
-    private int id;
+    public int id;
 
     public String getTitle() {
         return title;
