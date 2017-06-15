@@ -23,6 +23,8 @@ import io.realm.RealmResults;
 
 public class InputActivity extends AppCompatActivity {
 
+    public EditText mCategoryEdit; // 課題で追加した行
+
     private int mYear, mMonth, mDay, mHour, mMinute;
     private Button mDateButton, mTimeButton;
     private EditText mTitleEdit, mContentEdit;
@@ -91,6 +93,8 @@ public class InputActivity extends AppCompatActivity {
         mTitleEdit = (EditText)findViewById(R.id.title_edit_text);
         mContentEdit = (EditText)findViewById(R.id.content_edit_text);
 
+        mCategoryEdit = (EditText)findViewById(R.id.category_edit_text); // 課題で追加した行
+
         // EXTRA_TASK から Task の id を取得して、 id から Task のインスタンスを取得する
         Intent intent = getIntent();
         int taskId = intent.getIntExtra(MainActivity.EXTRA_TASK, -1);
@@ -110,7 +114,6 @@ public class InputActivity extends AppCompatActivity {
             // 更新の場合
             mTitleEdit.setText(mTask.getTitle());
             mContentEdit.setText(mTask.getContents());
-
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(mTask.getDate());
             mYear = calendar.get(Calendar.YEAR);
@@ -149,8 +152,13 @@ public class InputActivity extends AppCompatActivity {
         String title = mTitleEdit.getText().toString();
         String content = mContentEdit.getText().toString();
 
+        //String category = mCategoryEdit.getText().toString();
+
         mTask.setTitle(title);
         mTask.setContents(content);
+
+        //mTask.setCategory(categoty);
+
         GregorianCalendar calendar = new GregorianCalendar(mYear,mMonth,mDay,mHour,mMinute);
         Date date = calendar.getTime();
         mTask.setDate(date);
@@ -159,12 +167,7 @@ public class InputActivity extends AppCompatActivity {
         realm.commitTransaction();
 
 
-
-
-
         //realm.close();
-
-
 
 
         Intent resultIntent = new Intent(getApplicationContext(), TaskAlarmReceiver.class);
