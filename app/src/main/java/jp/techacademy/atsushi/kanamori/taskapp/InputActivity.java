@@ -21,12 +21,12 @@ import java.util.GregorianCalendar;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class InputActivity extends AppCompatActivity {
+public class InputActivity extends AppCompatActivity implements View.OnClickListener {
 
     public EditText mCategoryEdit; // 課題で追加した行
 
     private int mYear, mMonth, mDay, mHour, mMinute;
-    private Button mDateButton, mTimeButton;
+    private Button mDateButton, mTimeButton, mKensakuButton;
     private EditText mTitleEdit, mContentEdit;
     private Task mTask;
     private View.OnClickListener mOnDateClickListener = new View.OnClickListener() {
@@ -73,6 +73,16 @@ public class InputActivity extends AppCompatActivity {
     };
 
     @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.kensaku_button) {
+
+           /* RealmResults<Task> category = mRealm.where(Task.class).like("id", task.getId()).findAll();
+
+            notifyDataSetChanged();*/
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input);
@@ -85,6 +95,7 @@ public class InputActivity extends AppCompatActivity {
         }
 
         // UI部品の設定
+        mKensakuButton = (Button)findViewById(R.id.kensaku_button);
         mDateButton = (Button)findViewById(R.id.date_button);
         mDateButton.setOnClickListener(mOnDateClickListener);
         mTimeButton = (Button)findViewById(R.id.times_button);
@@ -94,6 +105,7 @@ public class InputActivity extends AppCompatActivity {
         mContentEdit = (EditText)findViewById(R.id.content_edit_text);
 
         mCategoryEdit = (EditText)findViewById(R.id.category_edit_text); // 課題で追加した行
+
 
         // EXTRA_TASK から Task の id を取得して、 id から Task のインスタンスを取得する
         Intent intent = getIntent();
@@ -112,6 +124,9 @@ public class InputActivity extends AppCompatActivity {
             mMinute = calendar.get(Calendar.MINUTE);
         } else {
             // 更新の場合
+
+            mCategoryEdit.setText(mTask.getCategory());
+
             mTitleEdit.setText(mTask.getTitle());
             mContentEdit.setText(mTask.getContents());
             Calendar calendar = Calendar.getInstance();
@@ -152,12 +167,13 @@ public class InputActivity extends AppCompatActivity {
         String title = mTitleEdit.getText().toString();
         String content = mContentEdit.getText().toString();
 
-        //String category = mCategoryEdit.getText().toString();
+
+        String category = mCategoryEdit.getText().toString();
 
         mTask.setTitle(title);
         mTask.setContents(content);
 
-        //mTask.setCategory(categoty);
+        mTask.setCategory(category);
 
         GregorianCalendar calendar = new GregorianCalendar(mYear,mMonth,mDay,mHour,mMinute);
         Date date = calendar.getTime();
