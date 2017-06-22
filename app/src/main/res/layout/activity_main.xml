@@ -22,4 +22,11 @@
         android:src="@drawable/plus"
         app:backgroundTint="@color/colorPrimary"/>
 
+
+    <SearchView
+        android:layout_width="match_parent"
+        android:id="@+id/searchView1"
+        android:layout_height="wrap_content">
+    </SearchView>
+
 </android.support.design.widget.CoordinatorLayout>

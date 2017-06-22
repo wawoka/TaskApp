@@ -21,12 +21,12 @@ import java.util.GregorianCalendar;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class InputActivity extends AppCompatActivity implements View.OnClickListener {
+public class InputActivity extends AppCompatActivity {
 
     public EditText mCategoryEdit; // 課題で追加した行
 
     private int mYear, mMonth, mDay, mHour, mMinute;
-    private Button mDateButton, mTimeButton, mKensakuButton;
+    private Button mDateButton, mTimeButton;
     private EditText mTitleEdit, mContentEdit;
     private Task mTask;
     private View.OnClickListener mOnDateClickListener = new View.OnClickListener() {
@@ -72,15 +72,18 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
         }
     };
 
-    @Override
+    /*@Override
     public void onClick(View v) {
         if (v.getId() == R.id.kensaku_button) {
 
-           /* RealmResults<Task> category = mRealm.where(Task.class).like("id", task.getId()).findAll();
-
-            notifyDataSetChanged();*/
+            Intent intent = getIntent();
+            int taskId = intent.getIntExtra(MainActivity.EXTRA_TASK, -1);
+            Realm realm = Realm.getDefaultInstance();
+            RealmResults<Task> category = mRealm.where(Task.class).like("id", task.getId()).findAll();
+            realm.close();
+            notifyDataSetChanged();
         }
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +98,7 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
         }
 
         // UI部品の設定
-        mKensakuButton = (Button)findViewById(R.id.kensaku_button);
+
         mDateButton = (Button)findViewById(R.id.date_button);
         mDateButton.setOnClickListener(mOnDateClickListener);
         mTimeButton = (Button)findViewById(R.id.times_button);
