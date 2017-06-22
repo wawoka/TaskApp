@@ -8,16 +8,20 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
     public final static String EXTRA_TASK = "jp.techacademy.atsushi.kanamori.taskapp.TASK";
 
     private Realm mRealm;
@@ -30,11 +34,34 @@ public class MainActivity extends AppCompatActivity {
     private ListView mListView;
     private TaskAdapter mTaskAdapter;
 
+
+    private String[] array_adapter_data = {};  //TODO
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        SearchView search = (SearchView) findViewById(R.id.searchView1);
+        mListView = (ListView) findViewById(R.id.listView1);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, array_adapter_data);  // TODO
+        mListView.setAdapter(adapter);
+        mListView.setTextFilterEnabled(true);
+
+        // SearchViewの初期表示状態を設定
+        search.setIconifiedByDefault(false);
+
+        // SearchViewにOnQueryChangeListenerを設定
+        search.setOnQueryTextListener(this);
+
+        // SearchViewのSubmitボタンを使用不可にする
+        search.setSubmitButtonEnabled(true);
+
+        // SearchViewに何も入力していない時のテキストを設定
+        search.setQueryHint("検索文字を入力して下さい。");
 
 
 
@@ -118,6 +145,21 @@ public class MainActivity extends AppCompatActivity {
 
         reloadListView();
     }
+
+    public boolean onQueryTextChange(String newText) {   //TODO
+        if (TextUtils.isEmpty(newText)) {
+            mListView.clearTextFilter();
+        } else {
+            mListView.setFilterText(newText.toString());
+        }
+        return true;
+    }
+
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+
 
     private void reloadListView() {
         // Realmデータベースから、「全てのデータを取得して新しい日時順に並べた結果」を取得

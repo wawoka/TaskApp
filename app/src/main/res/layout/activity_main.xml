@@ -8,11 +8,6 @@
     android:fitsSystemWindows="true"
     tools:context="jp.techacademy.atsushi.kanamori.taskapp.MainActivity">
 
-    <ListView
-        android:id="@+id/listView1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
@@ -23,10 +18,15 @@
         app:backgroundTint="@color/colorPrimary"/>
 
 
-    <SearchView
+    <ListView
+        android:id="@+id/listView1"
         android:layout_width="match_parent"
+        android:layout_height="375dp"
+        android:layout_weight="1" />
+
+    <SearchView
         android:id="@+id/searchView1"
-        android:layout_height="wrap_content">
-    </SearchView>
+        android:layout_width="match_parent"
+        android:layout_height="800dp"></SearchView>
 
 </android.support.design.widget.CoordinatorLayout>
