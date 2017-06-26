@@ -28,7 +28,7 @@
     <ListView
         android:id="@+id/listView1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="324dp" />
 
     <Button
         android:id="@+id/button"
@@ -41,9 +41,8 @@
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
+        android:layout_marginTop="440dp"
         android:text="絞込み解除"
-        app:layout_anchor="@+id/listView1"
         app:layout_anchorGravity="center_vertical|center_horizontal" />
 
 </android.support.design.widget.CoordinatorLayout>
