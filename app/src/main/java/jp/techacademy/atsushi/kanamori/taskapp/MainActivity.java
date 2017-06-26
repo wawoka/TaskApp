@@ -10,6 +10,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import io.realm.Realm;
@@ -17,7 +19,7 @@ import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public final static String EXTRA_TASK = "jp.techacademy.atsushi.kanamori.taskapp.TASK";
 
     private Realm mRealm;
@@ -29,6 +31,18 @@ public class MainActivity extends AppCompatActivity {
     };
     private ListView mListView;
     private TaskAdapter mTaskAdapter;
+    private EditText mEditText;
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.button) {
+            String text1 = mEditText.getText().toString();
+            category(text1);
+        }
+        if (v.getId() == R.id.backButton) {
+            reloadListView();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +61,14 @@ public class MainActivity extends AppCompatActivity {
         // Realmの設定
         mRealm = Realm.getDefaultInstance();
         mRealm.addChangeListener(mRealmListener);
+
+
+        Button button1 = (Button) findViewById(R.id.button);
+        button1.setOnClickListener(this);
+        Button backButton = (Button) findViewById(R.id.backButton) ;
+        backButton.setOnClickListener(this);
+        mEditText = (EditText) findViewById(R.id.editText);
+
 
         // ListViewの設定
         mTaskAdapter = new TaskAdapter(MainActivity.this);
@@ -134,5 +156,10 @@ public class MainActivity extends AppCompatActivity {
         mRealm.close();
     }
 
-    
+    public void category(String str){
+        RealmResults<Task> taskRealmResults = mRealm.where(Task.class).equalTo("category", str).findAllSorted("date",Sort.DESCENDING);
+        mTaskAdapter.setTaskList(mRealm.copyFromRealm(taskRealmResults));
+        mListView.setAdapter(mTaskAdapter);
+    }
+
 }
